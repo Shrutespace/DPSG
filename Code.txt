@@ -1,0 +1,23 @@
+#Required Packages
+install.packages("xlsx")
+library(xlsx)
+
+#Read in the data
+data<-read.xlsx("C:/Users/Clayton/Documents/Consulting/DPSG/FinalData.xlsx",sheetName = "Sheet2")
+summary(data)
+
+#Analyze data
+plot(data$Volume, data$Rate., xlab="Volume (in gallons)", ylab="Rate", main="Volume vs. Rate")
+model<-lm(Volume~ Rate, data=data)
+summary(model)
+data$lVolume<-log(data$Volume)
+plot(data$Rate, data$lVolume, xlab="Rate", ylab="Log of Volume (in gallons)", main="Volume vs. Rate")
+#Interpretation of Log-Linear Model
+model<-lm(lVolume~ Rate, data=data)
+summary(model)
+#Intercept and Rate are highly significant, but R^2 is 0.2635
+#Not a good fit of a model
+
+#Plot with new categories
+plot(lVolume ~ Rate, data = data, col=Category, xlab="Rate", ylab="Log of Volume (in gallons)", main="Volume vs. Rate (by Categories)")
+legend("topleft", legend=c("Category 1", "Category 2","Category 3","Category 4","Category 5","Category 6"), col=c(1:6), pch=1, bg="white")
